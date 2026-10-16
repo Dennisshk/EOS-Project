@@ -102,3 +102,6 @@ CMakeUserPresets.json
 environment/compiler
 .idea
 .claude
+
+# Windows Dateien
+*:Zone.Identifier
