@@ -11,14 +11,12 @@
 
 
 _assemblyStart:
-    /*Stack vorbereiten*/
+/*Stack vorbereiten*/
     LDR x0, =_STACK_TOP_
     MOV sp, x0
 
 
-
-
-    /*BSS Abschnitt leeren*/
+/*BSS Abschnitt leeren*/
     LDR x0, =_BSS_START_
     LDR x1, =_BSS_END_
 naechste_adresse:
@@ -30,15 +28,13 @@ naechste_adresse:
     B naechste_adresse
 
 
-
-
-    /*C Einstiegspunkt starten*/
+/*C Einstiegspunkt starten*/
 schleife_zuende:
     /* BL = Sprung mit gespeichertem return */
     BL kernel_main
 
 
-    /* Endlosschleife falls main verlassen */
+/* Endlosschleife falls main verlassen */
 endlos:
     B endlos
 
