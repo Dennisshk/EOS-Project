@@ -1,6 +1,8 @@
 #ifndef EOS_ENTWICKLUNGSUMGEBUNG_KERNEL_MAIN_H
 #define EOS_ENTWICKLUNGSUMGEBUNG_KERNEL_MAIN_H
 
+#include <stdint.h>
+
 uint64_t kernel_main(void);
 
 #endif //EOS_ENTWICKLUNGSUMGEBUNG_KERNEL_MAIN_H
