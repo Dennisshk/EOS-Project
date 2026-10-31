@@ -1,0 +1,11 @@
+W1:
+CMake Datei in kernel/arch/aarch64 hat gefehlt
+
+W2:
+CLion hat keine Assembly Unterstützung?
+In linker Datei fehlte Stack Einrichtung von OSDevWiki.
+Wie groß soll Stack sein? (KI Empfehlung: 0x4000 → 16384 Bits = 16 KiB).
+Zum Kompilieren wurde libc/libk verlangt → auskommentiert.
+Linker Datei erst mit "-Wl,-T,${CMAKE_CURRENT_SOURCE_DIR}/linker.ld" gefunden. Linker braucht den absoluten Pfad zur Datei
+error: unknown type name 'uint64_t' 4 | uint64_t kernel_main(void) → #include <stdint.h> für C-Code benötigt → Standardbibliothek?
+Build erfolgreich, trotzdem sagt CLion: The File does not belong to any project Target zur kernel_main.c und .h trotz CMake-Pfad
