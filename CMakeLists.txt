@@ -32,14 +32,15 @@ endif()
 # Define executable and libraries and add their subdirectories
 add_executable(kernel)
 #add_library(libc)
-add_library(libk)
+#add_library(libk)
 add_subdirectory(kernel)
-add_subdirectory(libc)
+#add_subdirectory(libc)
 
 # Includes libraries in the kernel
 target_link_libraries(kernel
         PRIVATE
-        libk
+#        libc
+#        libk
         gcc
 )
 set_target_properties(kernel PROPERTIES
@@ -59,6 +60,6 @@ if (HARDWARE_DEBUG)
 endif()
 if (DEBUG)
     target_compile_definitions(kernel PRIVATE DEBUG=1)
-    target_compile_definitions(libk PRIVATE DEBUG=1)
+#    target_compile_definitions(libk PRIVATE DEBUG=1)
     #    target_compile_definitions(lib PRIVATE DEBUG=1)
 endif()
