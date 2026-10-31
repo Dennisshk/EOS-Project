@@ -41,6 +41,13 @@ SECTIONS{
         *(.bss*)
         _BSS_END_ = .;
    }
+
+   .stack : {
+        . = ALIGN(16);
+        _STACK_BOTTOM_ = .;
+        . += 0x4000;
+        _STACK_TOP_ = .;
+   }
 }
 
 /* Angepasst aus  https://wiki.osdev.org/Linker_Scripts */
