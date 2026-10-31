@@ -5,5 +5,5 @@ target_sources(kernel
 
 target_link_options(kernel
         PRIVATE
-        -T linker.ld
+        "-Wl,-T,${CMAKE_CURRENT_SOURCE_DIR}/linker.ld"
 )
