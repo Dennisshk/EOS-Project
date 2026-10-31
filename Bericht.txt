@@ -1,7 +1,10 @@
-W1:
+W1 Entwicklungsumgebung:
 CMake Datei in kernel/arch/aarch64 hat gefehlt
 
-W2:
+Qemu noch nicht ausführbar, da executable kernel und library libc fehlt
+
+
+W2 Bootstrapping:
 CLion hat keine Assembly Unterstützung?
 
 In linker Datei fehlte rodata/Stack Einrichtung von OSDevWiki.
@@ -20,3 +23,5 @@ Trotz Build: /bin/bash: line 1: /home/dennis/eos-entwicklungsumgebung/cmake-buil
 -> CLion hat nicht qemu.sh ausgeführt sondern das OS auf Linux gestartet -> Neue Run-Konfiguration erstellen als Shell-Script und dort qemu.sh angeben.
 CMake-Application-Konfiguration: Erstellt build mit CMake, aber führt es auf Linux aus, nicht Qemu
 Shell-Script-Konfiguration: Braucht Build von CMake-Application, führt aber qemu.sh aus
+
+Auch Debugger braucht eigene Remote-Debug-Konfiguration + richtig eingestelltes Debug Profil, sonst wird da automatischer GDB ausgewählt und nicht der in enviroment/compiler
