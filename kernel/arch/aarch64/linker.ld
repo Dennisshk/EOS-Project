@@ -37,8 +37,11 @@ SECTIONS{
    }
 
    .bss : ALIGN(CONSTANT(MAXPAGESIZE)) {
+   /*Damit Assembly Schleife ganze Bytes entfernt*/
+        . = ALIGN(8);
         _BSS_START_ = .;
         *(.bss*)
+        . = ALIGN(8);
         _BSS_END_ = .;
    }
 
