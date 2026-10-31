@@ -1,5 +1,6 @@
 target_sources(kernel
         PRIVATE
+        kernel/kernel_main.c
         #[[List of .c/.h files for libc]]       
 )
 
