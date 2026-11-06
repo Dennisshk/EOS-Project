@@ -1,27 +1,34 @@
 W1 Entwicklungsumgebung:
-CMake Datei in kernel/arch/aarch64 hat gefehlt
+CMake Datei in kernel/arch/aarch64 hat gefehlt. => Eine leere CMake Datei zu erzeugen, hat fürs erste die Fehlermeldung behoben.
 
-Qemu noch nicht ausführbar, da executable kernel und library libc fehlt
+Qemu noch nicht ausführbar, da executable kernel und library libc fehlt. => Leider konnte man noch nicht die komplette Entwicklungsumgebung testen.
 
 
 W2 Bootstrapping:
-CLion hat keine Assembly Unterstützung?
+CLion hat keine Assembly Unterstützung. => Habe mir die möglichen Plugins nicht angeschaut, da es einfacher war die einzelnen benötigten Befehle für ARM Cortex 75 zu googeln und das Skript bisher auch nur klein war.
 
 In linker Datei fehlte rodata/Stack Einrichtung von OSDevWiki.
 
-Wie groß soll Stack sein? (KI Empfehlung: 0x4000 → 16384 Bits = 16 KiB).
+Es war schwer zu bestimmen, wie groß der Stack sein soll. => Manche Webseiten meinten, dass 0x4000 → 16384 Bits = 16 KiB passen. Das müsste für einen Rasberry Pi reichen. Es war auch leider keine RAM Info angegeben.
 
-Zum Kompilieren wurde libc/libk verlangt → auskommentiert.
+Zum Kompilieren wurde libc/libk verlangt. Libc und libk in der Zip-Datei waren relativ verwirrend, da eine Library libk angelegt war, aber kein Unterordner zu dieser. Im Gegensatz dazu gab es einen Unterordner für libc, aber keine Library dazu. => Erstmal alles mit libc und libk auskommentiert.
 
-Linker Datei erst mit "-Wl,-T,${CMAKE_CURRENT_SOURCE_DIR}/linker.ld" gefunden. Linker braucht den absoluten Pfad zur Datei, Compiler nicht
+Linker Datei erst mit "-Wl,-T,${CMAKE_CURRENT_SOURCE_DIR}/linker.ld" gefunden. Linker braucht den absoluten Pfad zur Datei, aber der Compiler für die C- und Assembly-Dateien nicht.
 
-error: unknown type name 'uint64_t' 4 | uint64_t kernel_main(void) → #include <stdint.h> im header für C-Code benötigt → Standardbibliothek?
+"error: unknown type name 'uint64_t' 4 | uint64_t kernel_main(void)" => "#include <stdint.h>" im Header für C-Code benötigt, um die Test-Methode ausführen zu können.
 
-Build erfolgreich, trotzdem sagt CLion: The File does not belong to any project Target zur kernel_main.c und .h trotz CMake-Pfad? Funktioniert aber auch so.
+Der Build war erfolgreich. Trotzdem sagt CLion: "The File does not belong to any project Target zur kernel_main.c und .h" trotz vorhandenen CMake-Pfad. => Funktioniert aber auch so und irgendwann ist die Fehlermeldung von alleine verschwunden. Vermutlich beim ersten Ausführen und IDE Neustarten.
 
-Trotz Build: /bin/bash: line 1: /home/dennis/eos-entwicklungsumgebung/cmake-build-debug/eos-project.elf: cannot execute binary file: Exec format error
--> CLion hat nicht qemu.sh ausgeführt sondern das OS auf Linux gestartet -> Neue Run-Konfiguration erstellen als Shell-Script und dort qemu.sh angeben.
-CMake-Application-Konfiguration: Erstellt build mit CMake, aber führt es auf Linux aus, nicht Qemu
-Shell-Script-Konfiguration: Braucht Build von CMake-Application, führt aber qemu.sh aus
+Trotz Build: "/bin/bash: line 1: /home/dennis/eos-entwicklungsumgebung/cmake-build-debug/eos-project.elf: cannot execute binary file: Exec format error"
+=> CLion hat nicht qemu.sh ausgeführt, sondern das OS auf Linux versucht zu starten. Eine neue Run-Konfiguration musste erstellt werden. Der Typ der Konfiguration war Shell-Script und dort wurde qemu.sh angeben. Auch musste von .sh als Standarseinstellung auf bash umgestellt werden.
 
-Auch Debugger braucht eigene Remote-Debug-Konfiguration + richtig eingestelltes Debug Profil, sonst wird da automatischer GDB ausgewählt und nicht der in enviroment/compiler
+Nun gibt es zwei benötigte Konfigurationen:
+CMake-Application-Konfiguration: Erstellt einen build mit CMake, aber führt diesen auf Linux aus. Deswegen sollte damit nur ein Build erstellt werden.
+Shell-Script-Konfiguration: Braucht Build von CMake-Application und führt qemu.sh aus. => Beim ausführen muss also mit der ersten Konfiguration ein Build erstellt werden und danach mit der zweiten Konfiguration dieser ausgeführt werden.
+
+Auch der Debugger braucht eine eigene Remote-Debug-Konfiguration und richtig eingestelltes Debug Profil. Bei beiden muss darauf geachtet werden, dass explizit der GDB aus dem Compiler-Ordner gewählt ist. Sonst wird da automatisch ein falscher GDB ausgewählt und nicht der in enviroment/compiler. Dadurch lässt es sich nicht starten.
+
+Um die Anzahl an Konfigurationen zu verringern, kann man "External Tools" erstellen, die bestimmte Konsolen-Befehle ausführen und vor einer Konfiguration ausgeführt werden. So war es möglich einen automatischen Build vor der Shell-Script-Konfiguration zu erstellen. Jedoch musste man trotzdem noch dieses Skript vorher ausführen, damit sich der Debugger danach mit Qemu verbinden kann.
+
+
+W3 Ausgabe:
