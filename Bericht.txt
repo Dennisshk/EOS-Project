@@ -35,6 +35,6 @@ W3 Ausgabe:
 
 Es gab keine Informationen dazu, ob FIFO aktiviert werden soll. => Da es einen Puffer erstellt und Interrupts reduziert, scheint die Aktivierung sinnvoll.
 
-FUARTCLK war im Dokument für die Formel nicht zu finden: Baud rate divisor BAUDDIV = (FUARTCLK/(16 Baud rate)). => Google-Suche: 48 MHz
+FUARTCLK war im Dokument für die Formel nicht zu finden: "Baud rate divisor BAUDDIV = (FUARTCLK/(16 Baud rate))". => Google-Suche mit nötigen Informationen: 48 MHz
 
 Im Dokument fehlte eine 0 bei "base adderss 0x7E20100"
