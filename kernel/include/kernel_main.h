@@ -6,3 +6,5 @@
 uint64_t kernel_main(void);
 
 #endif //EOS_ENTWICKLUNGSUMGEBUNG_KERNEL_MAIN_H
+
+//Wenn die Makro-Variable noch nicht definiert ist, wird sie im if definiert.
