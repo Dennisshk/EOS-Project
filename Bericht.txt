@@ -9,7 +9,7 @@ CLion hat keine Assembly Unterstützung. => Habe mir die möglichen Plugins nich
 
 In linker Datei fehlte rodata/Stack Einrichtung von OSDevWiki.
 
-Es war schwer zu bestimmen, wie groß der Stack sein soll. => Manche Webseiten meinten, dass 0x4000 → 16384 Bits = 16 KiB passen. Das müsste für einen Raspberry Pi reichen. Es war auch leider keine RAM Info angegeben.
+Es war schwer zu bestimmen, wie groß der Stack sein soll. => Manche Webseiten meinten, dass 0x4000 → 16384 Bits = 16 KiB passen.
 
 Zum Kompilieren wurde libc/libk verlangt. Libc und libk in der Zip-Datei waren relativ verwirrend, da eine Library libk angelegt war, aber kein Unterordner zu dieser. Im Gegensatz dazu gab es einen Unterordner für libc, aber keine Library dazu. => Erstmal alles mit libc und libk auskommentiert.
 
@@ -32,3 +32,9 @@ Um die Anzahl an Konfigurationen zu verringern, kann man "External Tools" erstel
 
 
 W3 Ausgabe:
+
+Es gab keine Informationen dazu, ob FIFO aktiviert werden soll. => Da es einen Puffer erstellt und Interrupts reduziert, scheint die Aktivierung sinnvoll.
+
+FUARTCLK war im Dokument für die Formel nicht zu finden: Baud rate divisor BAUDDIV = (FUARTCLK/(16 Baud rate)). => Google-Suche: 48 MHz
+
+Im Dokument fehlte eine 0 bei "base adderss 0x7E20100"
