@@ -1,13 +1,21 @@
 /*Definiert Section für Linker*/
 .section .text.boot
 
-/*Offenbart Variable für Linker*/
+/* Gibt externe Ressourcen */
 .global _assemblyStart
+.global endlos
 
-/* Kennt externe Ressourcen */
+/* Nimmt externe Ressourcen */
 .extern kernel_main
+.extern _interruptStart
+
 .extern _BSS_START_
 .extern _BSS_END_
+.extern _STACK_TOP_
+
+
+
+
 
 
 _assemblyStart:
@@ -16,22 +24,29 @@ _assemblyStart:
     MOV sp, x0
 
 
+
 /*BSS Abschnitt leeren*/
     LDR x0, =_BSS_START_
     LDR x1, =_BSS_END_
-naechste_adresse:
+bss_loop:
     CMP x0, x1
     /* Sprung zu Label, wenn Branch/Sprung (B) erfüllt Bedingung Higher Or Same (HS) */
-    B.HS schleife_zuende
+    B.HS bss_loop_end
     STR xzr, [x0]
     ADD X0, X0, #8
-    B naechste_adresse
+    B bss_loop
 
 
-/*C Einstiegspunkt starten*/
-schleife_zuende:
-    /* BL = Sprung mit gespeichertem return */
+
+/*Interrupt Init Methode aufrufen*/
+bss_loop_end:
+    BL _interruptStart
+
+
+
+/*C Einstiegspunkt starten -> BL = Sprung mit gespeichertem return */
     BL kernel_main
+
 
 
 /* Endlosschleife falls main verlassen */

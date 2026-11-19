@@ -11,10 +11,14 @@ ENTRY(_assemblyStart)
 . = 0x80000;
 
 SECTIONS{
-   .text.boot : {
+   .text.boot : ALIGN(CONSTANT(MAXPAGESIZE)) {
    /* Übernimmt alle .text.boot-Sections aus kompilierten Dateien*/
        KEEP(*(.text.boot))
    }
+
+   .text.vectors : ALIGN(CONSTANT(MAXPAGESIZE)) {
+          KEEP(*(.text.vectors))
+      }
 
    .text : ALIGN(CONSTANT(MAXPAGESIZE)) {
        _TEXT_START_ = .;

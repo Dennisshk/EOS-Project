@@ -38,3 +38,11 @@ Es gab keine Informationen dazu, ob FIFO aktiviert werden soll. => Da es einen P
 FUARTCLK war im Dokument für die Formel nicht zu finden: "Baud rate divisor BAUDDIV = (FUARTCLK/(16 Baud rate))". => Google-Suche mit nötigen Informationen: 48 MHz
 
 Im Dokument fehlte eine 0 bei "base adderss 0x7E20100"
+
+
+W4 Ausgabe:
+
+Das Dokument im OSDevWiki ist auf EL1 ausgelegt -> Es muss darauf geachtet werden es mit EL2 zu ersetzen
+Allgemein ist das Skript dort nur ein Test-Skript. Man muss es noch einbinden, z.B. globale Labels setzen und diese von boot.S aus aufrufen und ein
+ret bei dem ursprünglichen interruptStart-Label setzen, da dies sonst in einer Endlosschleife beim booten endet (Standard beim Test-Skript).
+Auch in den Linker muss die Tabelle rein.
