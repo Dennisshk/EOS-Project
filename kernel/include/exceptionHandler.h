@@ -1,0 +1,6 @@
+#ifndef EOS_PROJECT_EXCEPTIONHANDLER_H
+#define EOS_PROJECT_EXCEPTIONHANDLER_H
+
+void handle_exception_IRQ_same_el_with_SP_ELx();
+
+#endif //EOS_PROJECT_EXCEPTIONHANDLER_H

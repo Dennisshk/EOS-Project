@@ -1,5 +1,5 @@
 .global IRQ_same_el_with_SP_ELx
-.extern exception_handler_IRQ_same_el_with_SP_ELx
+.extern handle_exception_IRQ_same_el_with_SP_ELx
 
 .macro push reg1 reg2
     // Allgemeinregister sind 8 Byte groß, Stack muss immer 16 Byte Ausrichtung haben
@@ -53,7 +53,7 @@
 
 IRQ_same_el_with_SP_ELx:
     push_all
-    bl exception_handler_IRQ_same_el_with_SP_ELx
+    bl handle_exception_IRQ_same_el_with_SP_ELx
     pop_all
     // Hier wird weitergemacht: Als Gelesen markieren, zurückspringen!!! (davor war b)
 

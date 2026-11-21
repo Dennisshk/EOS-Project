@@ -52,3 +52,6 @@ reduzieren den Code durch paarweises Speichern/Laden
 
 Es ist verwirrend gewesen, dass man einmal in ENABLE_IRQ_2 Interrupts erlauben muss und zusätzlich in IMSC, wo dann auch der Receive Timeout Interrupt
 verfügbar ist. Hier wurde der Unterschied zwischen uart-Einstellung und Interrupt-Einstellung deutlich.
+
+Das Verschieben von C-Header Dateien ist anscheinend für CLion "too complex" bzw. CLion hängt sich da gerne auf -> Bevor man Header-Dateien verschiebt
+sollte alles sicherheitshalber gespeichert werden.
