@@ -1,4 +1,5 @@
 #include "exceptionHandler.h"
+#include "uart_driver.h"
 
 // Daten senden/empfangen
 #define UART_DATA_Register 0x3F201000
@@ -8,12 +9,17 @@
 #define UART_FLAG_Register 0x3F201018
 #define READ_FR() (*(volatile uint32_t *) UART_FLAG_Register)
 
-// IRQs bestimmen
+
+// IRQs bestimmen / gelesen markieren
 #define IRQ_BASIC_PENDING 0x3F00B200
 #define READ_IRQ_BASIC_PENDING() (*(volatile uint32_t *) IRQ_BASIC_PENDING)
 
 #define MIS 0x7E201040
 #define READ_MIS() (*(volatile uint32_t *) MIS)
+
+#define ICR 0x3F201044
+#define WRITE_ICR(val) ((*(volatile uint32_t *)ICR) = (val))
+
 
 // Konfiguration IRQs empfangen Und Puffer Größe
 #define IMSC 0x3F201038
@@ -24,7 +30,12 @@
 
 
 void handle_uart_interrupt(){
-    uint32_t input = READ_DR();
+    while (!(READ_FR() & (1u << 4))){
+        char input = (char)READ_DR();
+
+        uart_char(input);
+        //uart_string(input);
+    }
 }
 
 
@@ -32,13 +43,16 @@ void handle_uart_interrupt(){
 
 
 void handle_exception_IRQ_same_el_with_SP_ELx(){
-    if (READ_IRQ_BASIC_PENDING() & (1u << 19)) {
-        if (READ_MIS() & (1u << 4)) {// Receive Interrupt
+    if (READ_IRQ_BASIC_PENDING() & (1u << 19)) { //Uart Interrupt
+        uint32_t interruptTypes = READ_MIS();
+        if (interruptTypes & (1u << 4)) {// Receive Interrupt
             handle_uart_interrupt();
+            WRITE_ICR(1u << 4);
         }
 
-        if (READ_MIS() & (1u << 6)) {// Receive Timeout Interrupt
+        if (interruptTypes & (1u << 6)) {// Receive Timeout Interrupt
             handle_uart_interrupt();
+            WRITE_ICR(1u << 6);
         }
     }
 }
