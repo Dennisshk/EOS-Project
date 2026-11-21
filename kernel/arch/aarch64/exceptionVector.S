@@ -1,8 +1,9 @@
 .section .text.vectors
 .global _interruptStart
 .extern endlos
+.extern IRQ_same_el_with_SP_ELx
 
-
+// Initialisierung
 _interruptStart:
     // Lädt Adresse des vektors (label später definiert), speichert sie in vbar_el2 -> msr für spezielles system register, ldr für allgemeines register
     ldr x0,=vectors
@@ -13,12 +14,11 @@ _interruptStart:
 
 
 // Makro = Code der später injiziert werden kann, Name vector, Param label => Springt zur Adresse label nach Verschieben
+// .p2align sorgt für richtige Off-Sets -> 2^7 = 128 Grenzen
 .macro vector label
 .p2align 7
 b \label
 .endm
-
-
 
 // vector table must be 2048-byte aligned
 .p2align 11
@@ -31,7 +31,7 @@ vectors:
 
     // EL2 own stack (kernel mode)
     vector endlos
-    vector endlos
+    vector IRQ_same_el_with_SP_ELx
     vector endlos
     vector endlos
 

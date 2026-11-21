@@ -46,3 +46,6 @@ Das Dokument im OSDevWiki ist auf EL1 ausgelegt -> Es muss darauf geachtet werde
 Allgemein ist das Skript dort nur ein Test-Skript. Man muss es noch einbinden, z.B. globale Labels setzen und diese von boot.S aus aufrufen und ein
 ret bei dem ursprünglichen interruptStart-Label setzen, da dies sonst in einer Endlosschleife beim booten endet (Standard beim Test-Skript).
 Auch in den Linker muss die Tabelle rein.
+
+Interessanterweise gibt es keine Möglichkeit die x0-x28 Register in einer Schleife zu speichern => Als Makros ausschreiben, stp und ldp als pair
+reduzieren den Code durch paarweises Speichern/Laden

@@ -1,7 +1,8 @@
 target_sources(kernel
         PRIVATE
         boot.S
-        interrupts.S
+        exceptionVector.S
+        generalPurposeRegisters.S
 )
 
 target_link_options(kernel
