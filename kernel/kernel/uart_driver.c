@@ -1,6 +1,5 @@
 #include "uart_driver.h"
-
-#include <stdint.h>
+#include "exceptionHandler.h"
 
 // Daten senden/empfangen
 #define UART_DATA_Register 0x3F201000
@@ -19,12 +18,6 @@
 #define WRITE_LCR(val) ((*(volatile uint32_t *)UART_PARITAET_LENGTH_STOPBITS) = (val))
 #define UART_CONTROL_REGISTER 0x3F201030
 #define WRITE_CR(val) (*(volatile uint32_t *)UART_CONTROL_REGISTER = (val))
-
-// Konfiguration IRQs empfangen Und Puffer Größe
-#define IMSC 0x3F201038
-#define WRITE_IMSC(val) ((*(volatile uint32_t *)IMSC) = (val))
-#define IFLS 0x3F201034
-#define WRITE_IFLS(val) ((*(volatile uint32_t *)IFLS) = (val))
 
 void uart_char(char c) {
     // Puffer frei?
@@ -61,9 +54,7 @@ void uart_config(void){
     // 8 Bits, kein Paritätsbit, 1 Stopbit
     WRITE_LCR(0x70);  //01110000 = 0x70
 
-    // In UART selbst Receive und Timeout Interrupts freigeben
-    WRITE_IMSC((1u << 4) | (1u << 6));
-    WRITE_IFLS(0b000 << 3); // Bit 3-5 entscheidet: b000 = Receive FIFO becomes 1/8 full
+    uart_irq_config();
 
     // UART aktivieren:
     WRITE_CR(0x301); //001100000001 = 0x301

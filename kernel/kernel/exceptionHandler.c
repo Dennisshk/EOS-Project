@@ -1,6 +1,31 @@
 #include "exceptionHandler.h"
 
-void handle_exception_IRQ_same_el_with_SP_ELx()
-{
+// Daten senden/empfangen
+#define UART_DATA_Register 0x3F201000
+#define READ_DR() (*(volatile uint32_t *) UART_DATA_Register)
+#define WRITE_DR(val) ((*(volatile uint32_t *)UART_DATA_Register) = (val))
 
+#define UART_FLAG_Register 0x3F201018
+#define READ_FR() (*(volatile uint32_t *) UART_FLAG_Register)
+
+// IRQs bestimmen
+#define IRQ_BASIC_PENDING 0x3F00B200
+#define READ_IRQ_BASIC_PENDING() (*(volatile uint32_t *) IRQ_BASIC_PENDING)
+
+// Konfiguration IRQs empfangen Und Puffer Größe
+#define IMSC 0x3F201038
+#define WRITE_IMSC(val) ((*(volatile uint32_t *)IMSC) = (val))
+#define IFLS 0x3F201034
+#define WRITE_IFLS(val) ((*(volatile uint32_t *)IFLS) = (val))
+
+void handle_exception_IRQ_same_el_with_SP_ELx(){
+
+}
+
+
+
+void uart_irq_config(void){
+    // In UART selbst Receive und Timeout Interrupts freigeben
+    WRITE_IMSC((1u << 4) | (1u << 6));
+    WRITE_IFLS(0b000 << 3); // Bit 3-5 entscheidet: b000 = Receive FIFO becomes 1/8 full
 }
