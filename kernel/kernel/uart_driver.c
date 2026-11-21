@@ -20,11 +20,11 @@
 #define UART_CONTROL_REGISTER 0x3F201030
 #define WRITE_CR(val) (*(volatile uint32_t *)UART_CONTROL_REGISTER = (val))
 
-// Konfiguration IRQs empfangen
-#define IRQ_ENABLE_1 0x3F00B210
-#define WRITE_IRQ_ENABLE_1(val) ((*(volatile uint32_t *)IRQ_ENABLE_1) = (val))
-#define IRQ_ENABLE_2 0x3F00B214
-#define WRITE_IRQ_ENABLE_2(val) ((*(volatile uint32_t *)IRQ_ENABLE_2) = (val))
+// Konfiguration IRQs empfangen Und Puffer Größe
+#define IMSC 0x3F201038
+#define WRITE_IMSC(val) ((*(volatile uint32_t *)IMSC) = (val))
+#define IFLS 0x3F201034
+#define WRITE_IFLS(val) ((*(volatile uint32_t *)IFLS) = (val))
 
 void uart_char(char c) {
     // Puffer frei?
@@ -61,8 +61,9 @@ void uart_config(void){
     // 8 Bits, kein Paritätsbit, 1 Stopbit
     WRITE_LCR(0x70);  //01110000 = 0x70
 
-    // UART IRQs freigeben
-    WRITE_IRQ_ENABLE_2(1u << 25);
+    // In UART selbst Receive und Timeout Interrupts freigeben
+    WRITE_IMSC((1u << 4) | (1u << 6));
+    WRITE_IFLS(0b000 << 3); // Bit 3-5 entscheidet: b000 = Receive FIFO becomes 1/8 full
 
     // UART aktivieren:
     WRITE_CR(0x301); //001100000001 = 0x301
