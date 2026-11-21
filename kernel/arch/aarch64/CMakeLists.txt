@@ -3,6 +3,7 @@ target_sources(kernel
         boot.S
         exceptionVector.S
         generalPurposeRegisters.S
+        exceptionHandler.S
 )
 
 target_link_options(kernel

@@ -1,0 +1,3 @@
+.global exception_handler_IRQ_same_el_with_SP_ELx
+
+exception_handler_IRQ_same_el_with_SP_ELx:
