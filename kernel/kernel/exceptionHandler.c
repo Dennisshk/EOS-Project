@@ -14,7 +14,7 @@
 #define IRQ_BASIC_PENDING 0x3F00B200
 #define READ_IRQ_BASIC_PENDING() (*(volatile uint32_t *) IRQ_BASIC_PENDING)
 
-#define MIS 0x7E201040
+#define MIS 0x3F201040
 #define READ_MIS() (*(volatile uint32_t *) MIS)
 
 #define ICR 0x3F201044
@@ -43,6 +43,7 @@ void handle_uart_interrupt(){
 
 
 void handle_exception_IRQ_same_el_with_SP_ELx(){
+    uart_string("handle");
     if (READ_IRQ_BASIC_PENDING() & (1u << 19)) { //Uart Interrupt
         uint32_t interruptTypes = READ_MIS();
         if (interruptTypes & (1u << 4)) {// Receive Interrupt

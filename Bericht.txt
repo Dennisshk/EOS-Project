@@ -55,3 +55,17 @@ verfügbar ist. Hier wurde der Unterschied zwischen uart-Einstellung und Interru
 
 Das Verschieben von C-Header Dateien ist anscheinend für CLion "too complex" bzw. CLion hängt sich da gerne auf -> Bevor man Header-Dateien verschiebt
 sollte alles sicherheitshalber gespeichert werden.
+
+x29 und x30 auch absichern?
+
+
+
+
+Anleitung Qemu:
+1. Mit Kernel-Konfiguration den Build erstellen
+2. Im Terminal mit "bash qemu.sh" Qemu starten
+3. Mit Debugger-Konfiguration den Debugger verbinden lassen
+4. In Qemu "Paused" auf false setzen
+5. Im Terminal mit "bash qemu.sh" kann nun eine Eingabe geschrieben werden. Sie erscheint NICHT als Text.
+6. In Qemu "Paused" wieder auf true setzen.
+7. Im Debugger die Variablen auslesen
