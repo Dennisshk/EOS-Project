@@ -12,15 +12,39 @@
 #define IRQ_BASIC_PENDING 0x3F00B200
 #define READ_IRQ_BASIC_PENDING() (*(volatile uint32_t *) IRQ_BASIC_PENDING)
 
+#define MIS 0x7E201040
+#define READ_MIS() (*(volatile uint32_t *) MIS)
+
 // Konfiguration IRQs empfangen Und Puffer Größe
 #define IMSC 0x3F201038
 #define WRITE_IMSC(val) ((*(volatile uint32_t *)IMSC) = (val))
 #define IFLS 0x3F201034
 #define WRITE_IFLS(val) ((*(volatile uint32_t *)IFLS) = (val))
 
-void handle_exception_IRQ_same_el_with_SP_ELx(){
 
+
+void handle_uart_interrupt(){
+    uint32_t input = READ_DR();
 }
+
+
+
+
+
+void handle_exception_IRQ_same_el_with_SP_ELx(){
+    if (READ_IRQ_BASIC_PENDING() & (1u << 19)) {
+        if (READ_MIS() & (1u << 4)) {// Receive Interrupt
+            handle_uart_interrupt();
+        }
+
+        if (READ_MIS() & (1u << 6)) {// Receive Timeout Interrupt
+            handle_uart_interrupt();
+        }
+    }
+}
+
+
+
 
 
 
