@@ -58,10 +58,11 @@ sollte alles sicherheitshalber gespeichert werden.
 
 x29 und x30 auch absichern?
 
-
+Aktueller Bug: Eingabe funktioniert nicht, obwohl alles eigentlich richtig eingerichtet. Interrupt Flags werden auch gesetzt, aber Exception Vektor wird nie aufgerufen. Daif und vbar_el2 sind gesetzt und auch die Offsets stimmen.
 
 
 Anleitung Qemu:
+
 1. Mit Kernel-Konfiguration den Build erstellen
 2. Im Terminal mit "bash qemu.sh" Qemu starten
 3. Mit Debugger-Konfiguration den Debugger verbinden lassen
