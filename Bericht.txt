@@ -5,7 +5,7 @@ Qemu noch nicht ausführbar, da executable kernel und library libc fehlt. => Lei
 
 
 W2 Bootstrapping:
-CLion hat keine Assembly Unterstützung. => Habe mir die möglichen Plugins nicht angeschaut, da es einfacher war die einzelnen benötigten Befehle für ARM Cortex 75 zu googeln und das Skript bisher auch nur klein war.
+CLion hat keine Assembly Unterstützung. => Muss eingestellt werden: Settings -> File Types -> Assembly und dort mit dem Plus-Zeichen ".S" hinzufügen
 
 In linker Datei fehlte rodata/Stack Einrichtung von OSDevWiki.
 
